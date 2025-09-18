@@ -1,6 +1,6 @@
-package com.example.repository;
+package LMS.project.repository;
 
-import com.example.entity.User;
+import LMS.project.modal.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
