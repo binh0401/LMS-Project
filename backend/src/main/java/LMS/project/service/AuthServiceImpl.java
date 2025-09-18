@@ -14,6 +14,9 @@ public class AuthServiceImpl implements AuthService{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
@@ -26,6 +29,7 @@ public class AuthServiceImpl implements AuthService{
 
         //Save user's data into DB
         User user = new User();
+        user.setUserId(java.util.UUID.randomUUID().toString());
         user.setName(signUpRequest.getName());
         user.setDob(signUpRequest.getDob());
         user.setGender(signUpRequest.getGender());
@@ -35,7 +39,7 @@ public class AuthServiceImpl implements AuthService{
 
         userRepository.save(user);
 
-        String token = JwtUtil.generateToken(user.getUserId(), user.getEmail(), user.getRole());
+        String token = jwtUtil.generateToken(user.getUserId(), user.getEmail(), user.getRole());
 
         return SignUpResponse.fromUser(user, token);
     }
