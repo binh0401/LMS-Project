@@ -14,9 +14,10 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     // ============= SIGN UP RELATED METHODS =============
 
-    /**
-     * Check if email already exists in the database
-     * Used during sign up to prevent duplicate emails
-     */
+    // Check if email already exists
     boolean existsByEmail(String email);
+
+    // Find user by email
+    User findByEmail(String email);
+
 }

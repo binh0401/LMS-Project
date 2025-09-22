@@ -1,7 +1,11 @@
 package LMS.project.service.Auth;
 
+import LMS.project.dto.Auth.SignInRequest;
+import LMS.project.dto.Auth.SignInResponse;
 import LMS.project.dto.Auth.SignUpRequest;
 import LMS.project.dto.Auth.SignUpResponse;
+import LMS.project.exception.BadRequestException;
+import LMS.project.exception.UnauthorizedException;
 import LMS.project.modal.User;
 import LMS.project.repository.UserRepository;
 import LMS.project.security.JwtUtil;
@@ -24,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
     public SignUpResponse signUp(SignUpRequest signUpRequest){
         //check if user's email exists
         if(userRepository.existsByEmail(signUpRequest.getEmail())){
-            throw new RuntimeException("Email already exists");
+            throw new BadRequestException("Email already exists");
         }
 
         //Save user's data into DB
@@ -42,5 +46,25 @@ public class AuthServiceImpl implements AuthService {
         String token = jwtUtil.generateToken(user.getUserId(), user.getEmail(), user.getRole());
 
         return SignUpResponse.fromUser(user, token);
+    }
+
+    @Override
+    public SignInResponse signIn(SignInRequest signInRequest){
+        String email = signInRequest.getEmail();
+        //check if user's email exists
+        if (!userRepository.existsByEmail(email)){
+            throw new BadRequestException("Invalid email");
+        }
+
+        User user = userRepository.findByEmail(email);
+
+        //check if user enter right password
+        if (!passwordEncoder.matches(signInRequest.getPassword(), user.getHashedPassword())) {
+            throw new UnauthorizedException("Invalid password");
+        }
+        String token = jwtUtil.generateToken(user.getUserId(), user.getEmail(), user.getRole());
+
+        return SignInResponse.fromUser(user, token);
+
     }
 }
