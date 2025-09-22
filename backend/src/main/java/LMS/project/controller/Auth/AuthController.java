@@ -1,16 +1,11 @@
 package LMS.project.controller.Auth;
 
-import LMS.project.dto.Auth.SignInRequest;
-import LMS.project.dto.Auth.SignInResponse;
-import LMS.project.dto.Auth.SignUpRequest;
-import LMS.project.dto.Auth.SignUpResponse;
+import LMS.project.dto.Auth.*;
+import LMS.project.exception.UnauthorizedException;
 import LMS.project.service.Auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -32,4 +27,21 @@ public class AuthController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/get-user")
+    public ResponseEntity<GetUserResponse> getUser(
+            @RequestHeader(name = "Authorization", required = true) String authHeader) {
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new UnauthorizedException("Missing or invalid Authorization header");
+        }
+
+        System.out.println(authHeader);
+        String token = authHeader.substring(7);
+
+
+        GetUserResponse response = authService.getUser(token);
+        return ResponseEntity.ok(response);
+    }
 }
+

@@ -31,7 +31,7 @@ public class SignUpResponse {
     // Default constructor
     public SignUpResponse() {}
 
-    // Constructor with all fields
+    // Constructor
     public SignUpResponse(String userId, String name, LocalDate dob, String gender,
                            String role, String email, LocalDateTime createdAt, String token) {
         this.userId = userId;
