@@ -1,4 +1,4 @@
-package LMS.project.dto;
+package LMS.project.dto.Auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
