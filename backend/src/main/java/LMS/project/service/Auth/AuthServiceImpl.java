@@ -1,7 +1,7 @@
-package LMS.project.service;
+package LMS.project.service.Auth;
 
-import LMS.project.dto.SignUpRequest;
-import LMS.project.dto.SignUpResponse;
+import LMS.project.dto.Auth.SignUpRequest;
+import LMS.project.dto.Auth.SignUpResponse;
 import LMS.project.modal.User;
 import LMS.project.repository.UserRepository;
 import LMS.project.security.JwtUtil;
@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthServiceImpl implements AuthService{
+public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserRepository userRepository;
 

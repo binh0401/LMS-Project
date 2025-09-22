@@ -1,9 +1,8 @@
-package LMS.project.controller;
+package LMS.project.controller.Auth;
 
-import LMS.project.dto.SignUpRequest;
-import LMS.project.dto.SignUpResponse;
-import LMS.project.modal.User;
-import LMS.project.service.AuthService;
+import LMS.project.dto.Auth.SignUpRequest;
+import LMS.project.dto.Auth.SignUpResponse;
+import LMS.project.service.Auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

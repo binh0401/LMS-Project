@@ -1,4 +1,4 @@
-package LMS.project.dto;
+package LMS.project.dto.Auth;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -16,7 +16,6 @@ public class JwtUtil {
     private final JwtConfig jwtConfig;
 
     public JwtUtil(JwtConfig jwtConfig) {
-        //test
         this.jwtConfig = jwtConfig;
     }
 
