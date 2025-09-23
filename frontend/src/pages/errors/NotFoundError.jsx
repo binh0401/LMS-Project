@@ -29,9 +29,11 @@ import {
   ExpandLess,
   ContentCopy
 } from '@mui/icons-material';
+import { useNavigate } from 'react-router';
 
 // 404 Not Found Error Page
 const NotFoundError = () => {
+  const navigate = useNavigate()
   return (
     <Container>
       <Box
@@ -77,7 +79,7 @@ const NotFoundError = () => {
               variant="contained"
               size="large"
               startIcon={<Home />}
-              onClick={() => window.location.href = '/'}
+              onClick={() => navigate('/')}
               sx={{ px: 4 }}
             >
               Go Home
@@ -86,7 +88,7 @@ const NotFoundError = () => {
               variant="outlined"
               size="large"
               startIcon={<ArrowBack />}
-              onClick={() => window.history.back()}
+              onClick={() => navigate(-1)}
               sx={{ px: 4 }}
             >
               Go Back
