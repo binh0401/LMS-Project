@@ -80,8 +80,6 @@ export const AuthProvider = ({ children }) => {
       const data = await getUserAPI();
       console.log(data)
 
-      localStorage.setItem("token", data.token);
-
       dispatch({
         type: "GET_USER_SUCCESS",
         payload: {

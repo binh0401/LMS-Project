@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Link } from "react-router";
 
 const SignUpForm = ({ 
@@ -110,10 +111,10 @@ const SignUpForm = ({
                     control={control}
                     rules={{ required: "Date of Birth is required" }}
                     render={({ field }) => (
-                      <Input
-                        {...field}
-                        id="dob"
-                        type="date"
+                      <DatePicker
+                        date={field.value ? new Date(field.value) : undefined}
+                        setDate={(date) => field.onChange(date ? date.toISOString().split('T')[0] : '')}
+                        placeholder="Select your date of birth"
                         className={errors.dob ? "border-red-500" : ""}
                       />
                     )}

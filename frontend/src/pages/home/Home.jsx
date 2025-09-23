@@ -1,9 +1,12 @@
 import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
+import useAuth from '../../hooks/useAuth';
+import { Navigate } from 'react-router';
 
 const Home = () => {
   const navigate = useNavigate()
+  const { authState } = useAuth()
   return (
     <Box
       sx={{
@@ -26,6 +29,7 @@ const Home = () => {
       </Typography>
 
       {/* Actions */}
+      {!authState.isAuthenticated ? (
       <Box sx={{ display: 'flex', gap: 2 }}>
         <Button
           variant="outlined"
@@ -54,6 +58,10 @@ const Home = () => {
           Get Started
         </Button>
       </Box>
+      ) : (
+        <Navigate to="/dashboard" />
+      )}
+
     </Box>
   );
 };
