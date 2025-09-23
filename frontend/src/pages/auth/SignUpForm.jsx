@@ -1,20 +1,24 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
-  TextField,
-  Button,
-  MenuItem,
-  Typography,
   Card,
   CardContent,
-  Stack,
-  Box,
-} from "@mui/material";
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Link } from "react-router";
 
-const SignUpForm = () => {
-  const { control, handleSubmit } = useForm({
+const SignUpForm = ({ 
+  className,
+  ...props
+}) => {
+  const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     defaultValues: {
       name: "",
       dob: "",
@@ -25,181 +29,237 @@ const SignUpForm = () => {
     },
   });
 
-  const { signup } = useAuth();
+  const { signup, authState } = useAuth();
 
-  const onSubmit = (data) => {
-    signup(data);
+  const onSubmit = async (data) => {
+    try {
+      await signup(data);
+    } catch (error) {
+      console.error("Sign up error:", error);
+    }
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-        bgcolor: "background.default",
-        p: 2,
-      }}
-    >
-      <Card sx={{ maxWidth: 420, width: "100%", boxShadow: 4, borderRadius: 3 }}>
-        <CardContent sx={{ p: 4 }}>
-          {/* Header */}
-          <Typography
-            variant="h5"
-            sx={{ fontWeight: "bold", mb: 1, textAlign: "center" }}
-          >
-            Create an Account
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{ color: "text.secondary", mb: 3, textAlign: "center" }}
-          >
+    <div className={cn("flex flex-col gap-6", className)} {...props}>
+      <Card>
+        <CardHeader className="text-center">
+          <CardTitle className="text-xl">Create an Account</CardTitle>
+          <CardDescription>
             Join our platform and get started in minutes
-          </Typography>
-
-          {/* Form */}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={2}>
-              {/* Name */}
-              <Controller
-                name="name"
-                control={control}
-                rules={{ required: "Name is required" }}
-                render={({ field, fieldState }) => (
-                  <TextField
-                    {...field}
-                    label="Name"
-                    fullWidth
-                    error={!!fieldState.error}
-                    helperText={fieldState.error?.message}
+            <div className="grid gap-6">
+              {/* Social Login Buttons */}
+              <div className="flex flex-col gap-4">
+                <Button variant="outline" className="w-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                      d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  Sign up with Apple
+                </Button>
+                <Button variant="outline" className="w-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                      d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  Sign up with Google
+                </Button>
+              </div>
+              
+              <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
+                <span className="bg-card text-muted-foreground relative z-10 px-2">
+                  Or continue with
+                </span>
+              </div>
+
+              <div className="grid gap-6">
+                {/* Name Field */}
+                <div className="grid gap-3">
+                  <Label htmlFor="name">Full Name</Label>
+                  <Controller
+                    name="name"
+                    control={control}
+                    rules={{ required: "Name is required" }}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        id="name"
+                        type="text"
+                        placeholder="John Doe"
+                        className={errors.name ? "border-red-500" : ""}
+                      />
+                    )}
                   />
-                )}
-              />
+                  {errors.name && (
+                    <p className="text-sm text-red-500">{errors.name.message}</p>
+                  )}
+                </div>
 
-              {/* Date of Birth */}
-              <Controller
-                name="dob"
-                control={control}
-                rules={{ required: "Date of Birth is required" }}
-                render={({ field, fieldState }) => (
-                  <TextField
-                    {...field}
-                    label="Date of Birth"
-                    type="date"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    error={!!fieldState.error}
-                    helperText={fieldState.error?.message}
+                {/* Date of Birth Field */}
+                <div className="grid gap-3">
+                  <Label htmlFor="dob">Date of Birth</Label>
+                  <Controller
+                    name="dob"
+                    control={control}
+                    rules={{ required: "Date of Birth is required" }}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        id="dob"
+                        type="date"
+                        className={errors.dob ? "border-red-500" : ""}
+                      />
+                    )}
                   />
-                )}
-              />
+                  {errors.dob && (
+                    <p className="text-sm text-red-500">{errors.dob.message}</p>
+                  )}
+                </div>
 
-              {/* Gender */}
-              <Controller
-                name="gender"
-                control={control}
-                rules={{ required: "Gender is required" }}
-                render={({ field, fieldState }) => (
-                  <TextField
-                    {...field}
-                    label="Gender"
-                    select
-                    fullWidth
-                    error={!!fieldState.error}
-                    helperText={fieldState.error?.message}
-                  >
-                    <MenuItem value="male">Male</MenuItem>
-                    <MenuItem value="female">Female</MenuItem>
-                    <MenuItem value="other">Other</MenuItem>
-                  </TextField>
-                )}
-              />
-
-              {/* Role */}
-              <Controller
-                name="role"
-                control={control}
-                rules={{ required: "Role is required" }}
-                render={({ field, fieldState }) => (
-                  <TextField
-                    {...field}
-                    label="Role"
-                    select
-                    fullWidth
-                    error={!!fieldState.error}
-                    helperText={fieldState.error?.message}
-                  >
-                    <MenuItem value="user">User</MenuItem>
-                    <MenuItem value="admin">Admin</MenuItem>
-                  </TextField>
-                )}
-              />
-
-              {/* Email */}
-              <Controller
-                name="email"
-                control={control}
-                rules={{
-                  required: "Email is required",
-                  pattern: {
-                    value: /^\S+@\S+$/i,
-                    message: "Invalid email format",
-                  },
-                }}
-                render={({ field, fieldState }) => (
-                  <TextField
-                    {...field}
-                    label="Email"
-                    type="email"
-                    fullWidth
-                    error={!!fieldState.error}
-                    helperText={fieldState.error?.message}
+                {/* Gender Field */}
+                <div className="grid gap-3">
+                  <Label htmlFor="gender">Gender</Label>
+                  <Controller
+                    name="gender"
+                    control={control}
+                    rules={{ required: "Gender is required" }}
+                    render={({ field }) => (
+                      <select
+                        {...field}
+                        id="gender"
+                        className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${errors.gender ? "border-red-500" : ""}`}
+                      >
+                        <option value="">Select gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                      </select>
+                    )}
                   />
-                )}
-              />
+                  {errors.gender && (
+                    <p className="text-sm text-red-500">{errors.gender.message}</p>
+                  )}
+                </div>
 
-              {/* Password */}
-              <Controller
-                name="password"
-                control={control}
-                rules={{
-                  required: "Password is required",
-                  minLength: { value: 6, message: "Min 6 characters" },
-                }}
-                render={({ field, fieldState }) => (
-                  <TextField
-                    {...field}
-                    label="Password"
-                    type="password"
-                    fullWidth
-                    error={!!fieldState.error}
-                    helperText={fieldState.error?.message}
+                {/* Role Field */}
+                <div className="grid gap-3">
+                  <Label htmlFor="role">Role</Label>
+                  <Controller
+                    name="role"
+                    control={control}
+                    rules={{ required: "Role is required" }}
+                    render={({ field }) => (
+                      <select
+                        {...field}
+                        id="role"
+                        className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${errors.role ? "border-red-500" : ""}`}
+                      >
+                        <option value="">Select role</option>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                      </select>
+                    )}
                   />
-                )}
-              />
+                  {errors.role && (
+                    <p className="text-sm text-red-500">{errors.role.message}</p>
+                  )}
+                </div>
 
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                fullWidth
-                sx={{
-                  mt: 1,
-                  borderRadius: 2,
-                  textTransform: "none",
-                  fontWeight: "bold",
-                }}
-              >
-                Sign Up
-              </Button>
-            </Stack>
+                {/* Email Field */}
+                <div className="grid gap-3">
+                  <Label htmlFor="email">Email</Label>
+                  <Controller
+                    name="email"
+                    control={control}
+                    rules={{
+                      required: "Email is required",
+                      pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: "Invalid email format",
+                      },
+                    }}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        id="email"
+                        type="email"
+                        placeholder="m@example.com"
+                        className={errors.email ? "border-red-500" : ""}
+                      />
+                    )}
+                  />
+                  {errors.email && (
+                    <p className="text-sm text-red-500">{errors.email.message}</p>
+                  )}
+                </div>
+
+                {/* Password Field */}
+                <div className="grid gap-3">
+                  <Label htmlFor="password">Password</Label>
+                  <Controller
+                    name="password"
+                    control={control}
+                    rules={{
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters",
+                      },
+                    }}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        id="password"
+                        type="password"
+                        className={errors.password ? "border-red-500" : ""}
+                      />
+                    )}
+                  />
+                  {errors.password && (
+                    <p className="text-sm text-red-500">{errors.password.message}</p>
+                  )}
+                </div>
+
+                {/* Submit Button */}
+                <Button 
+                  type="submit" 
+                  className="w-full" 
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Creating Account..." : "Create Account"}
+                </Button>
+
+                {/* Authentication Error Display */}
+                {authState.error && (
+                  <div className="p-3 text-sm text-red-500 bg-red-50 border border-red-200 rounded-md">
+                    {authState.error}
+                  </div>
+                )}
+              </div>
+
+              <div className="text-center text-sm">
+                Already have an account?{" "}
+                <Link to="/signin" className="underline underline-offset-4">
+                  Sign in
+                </Link>
+              </div>
+            </div>
           </form>
-
         </CardContent>
       </Card>
-    </Box>
+      
+      <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
+        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
+        and <a href="#">Privacy Policy</a>.
+      </div>
+    </div>
   );
 };
 

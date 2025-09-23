@@ -1,11 +1,9 @@
 import { Link, Navigate, Outlet, useLocation } from "react-router";
-import { Box, Card, CardContent, Typography } from "@mui/material";
+
 import useAuth from "../../hooks/useAuth";
+import { GalleryVerticalEnd } from "lucide-react"
 
 const AuthPage = () => {
-  const location = useLocation();
-  const isSignIn = location.pathname.endsWith("/signin");
-
   const { authState } = useAuth();
 
   // ✅ Early return if user is already authenticated
@@ -14,66 +12,17 @@ const AuthPage = () => {
   }
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        justifyContent: "center",
-        alignItems: "center",
-        bgcolor: "background.default",
-        p: 2,
-      }}
-    >
-      {/* Page Title */}
-      <Typography
-        variant="h4"
-        sx={{ fontWeight: "bold", mb: 1, color: "primary.main" }}
-      >
-        Welcome to LMS
-      </Typography>
-      <Typography variant="body2" sx={{ color: "text.secondary", mb: 3 }}>
-        {isSignIn
-          ? "Sign in to access your account"
-          : "Create a new account to get started"}
-      </Typography>
-
-      {/* Auth Card */}
-      <Card sx={{ maxWidth: 420, width: "100%", boxShadow: 4, borderRadius: 3 }}>
-        <CardContent sx={{ p: 4 }}>
-          <Outlet />
-        </CardContent>
-      </Card>
-
-      {/* Switch Links */}
-      <Typography
-        variant="body2"
-        sx={{ mt: 3, textAlign: "center", color: "text.secondary" }}
-      >
-        {isSignIn ? (
-          <>
-            No account?{" "}
-            <Link to="/signup" style={{ textDecoration: "none", color: "#1976d2" }}>
-              Sign Up
-            </Link>
-          </>
-        ) : (
-          <>
-            Already have an account?{" "}
-            <Link to="/signin" style={{ textDecoration: "none", color: "#1976d2" }}>
-              Sign In
-            </Link>
-          </>
-        )}
-      </Typography>
-
-      {/* Back to Home */}
-      <Typography variant="body2" sx={{ mt: 2 }}>
-        <Link to="/" style={{ textDecoration: "none", color: "text.secondary" }}>
-          ← Back to Home
+     <div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+      <div className="flex w-full max-w-sm flex-col gap-6">
+        <Link to="/" className="flex items-center gap-2 self-center text-2xl font-medium">
+          <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
+            <GalleryVerticalEnd className="size-4" />
+          </div>
+          Vãi lồn LMS
         </Link>
-      </Typography>
-    </Box>
+        <Outlet />
+      </div>
+    </div>
   );
 };
 
