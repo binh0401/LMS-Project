@@ -16,11 +16,11 @@ public class SignInRequest {
     @NotBlank(message = "Please enter your password.")
     private String password;
 
-    @JsonProperty("createdAt")
+    @JsonProperty("signInAt")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime createdAt;
+    private LocalDateTime signInAt;
 
-    // ---- Getters and Setters ----
+    //  Getters and Setters
     public String getEmail() {
         return email;
     }
@@ -37,12 +37,12 @@ public class SignInRequest {
         this.password = password;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public LocalDateTime getSignInAt() {
+        return signInAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setSignInAt(LocalDateTime signInAt) {
+        this.signInAt = signInAt;
     }
 
 }

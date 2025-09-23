@@ -1,9 +1,6 @@
 package LMS.project.service.Auth;
 
-import LMS.project.dto.Auth.SignInRequest;
-import LMS.project.dto.Auth.SignInResponse;
-import LMS.project.dto.Auth.SignUpRequest;
-import LMS.project.dto.Auth.SignUpResponse;
+import LMS.project.dto.Auth.*;
 import LMS.project.exception.BadRequestException;
 import LMS.project.exception.UnauthorizedException;
 import LMS.project.modal.User;
@@ -51,6 +48,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public SignInResponse signIn(SignInRequest signInRequest){
         String email = signInRequest.getEmail();
+
         //check if user's email exists
         if (!userRepository.existsByEmail(email)){
             throw new BadRequestException("Invalid email");
@@ -66,5 +64,32 @@ public class AuthServiceImpl implements AuthService {
 
         return SignInResponse.fromUser(user, token);
 
+    }
+
+    @Override
+    public GetUserResponse getUser(String token) {
+        //If invalid token
+        if (!jwtUtil.validateToken(token)) {
+            System.out.println("Unauthorized");
+            throw new UnauthorizedException("Invalid or expired token");
+        }
+
+        String userId = jwtUtil.extractUserId(token);
+        System.out.println(userId);
+        // Or extractEmail(...) if that’s your subject — adjust to your JwtUtil
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UnauthorizedException("User not found"));
+
+        GetUserResponse response = new GetUserResponse(
+                user.getName(),
+                user.getDob(),
+                user.getGender(),
+                user.getRole(),
+                user.getEmail(),
+                user.getUserId()
+        );
+
+        System.out.println("Response in getuser():" + response);
+        return response;
     }
 }

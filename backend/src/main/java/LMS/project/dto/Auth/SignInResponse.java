@@ -22,7 +22,7 @@ public class SignInResponse {
 
     private String email;
 
-    @JsonProperty("createdAt")
+    @JsonProperty("signInAt")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime signInAt;
 
@@ -32,16 +32,16 @@ public class SignInResponse {
     public SignInResponse() {
     }
 
-    // Constructor with all fields
+    // Constructor
     public SignInResponse(String userId, String name, LocalDate dob, String gender,
-                          String role, String email, LocalDateTime signInAt, String token) {
+                          String role, String email, String token) {
         this.userId = userId;
         this.name = name;
         this.dob = dob;
         this.gender = gender;
         this.role = role;
         this.email = email;
-        this.signInAt = signInAt;
+        this.signInAt = LocalDateTime.now();
         this.token = token;
     }
 
@@ -54,7 +54,6 @@ public class SignInResponse {
                 user.getGender(),
                 user.getRole(),
                 user.getEmail(),
-                user.getCreatedAt(),
                 token
         );
     }
@@ -125,7 +124,7 @@ public class SignInResponse {
 
     @Override
     public String toString() {
-        return "UserResponseDTO{" +
+        return "SignInResponseDTO{" +
                 "userId='" + userId + '\'' +
                 ", name='" + name + '\'' +
                 ", dob=" + dob +
