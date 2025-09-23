@@ -2,19 +2,19 @@ import axiosInstance from "./axiosInstance"
 
 
 
-export const signupAPI = async (data) => {
+export const signupAPI =  (data) => {
   return axiosInstance.post('/auth/signup', data)
 }
 
-export const signinAPI = async (data) => {
+export const signinAPI =  (data) => {
   return axiosInstance.post('/auth/signin', data)
 }
 
-export const logoutAPI = async () => {
+export const logoutAPI =  () => {
   return axiosInstance.post('/auth/logout')
 }
 
-export const getUserAPI = async () => {
+export const getUserAPI =  () => {
   return axiosInstance.get('/auth/get-user')
 }
 

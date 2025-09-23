@@ -8,7 +8,7 @@ import Box from '@mui/material/Box'
 import NotFoundError from "./pages/errors/NotFoundError"
 import ProtectedRoute from "./components/shared/ProtectedRoute"
 import AuthPage from "./pages/auth/AuthPage"
-import { Dashboard } from "@mui/icons-material"
+import Dashboard from './pages/dashboard/Dashboard'
 
 
 const App = () => {
@@ -36,7 +36,7 @@ const App = () => {
       
       {/* Protected Routes */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/dashboard" element={Dashboard}/>
+        <Route path="/dashboard" element={<Dashboard />}/>
       </Route>
 
       <Route path="/*" element={<NotFoundError />} />

@@ -24,7 +24,9 @@ axiosInstance.interceptors.request.use(function (request){
 })
 
 //Response Interceptor to handle errors
-axiosInstance.interceptors.response.use(function (response){})
+axiosInstance.interceptors.response.use(function (response){
+  return response.data
+})
 
 export default axiosInstance
 

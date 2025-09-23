@@ -1,9 +1,17 @@
-import { Link, Outlet, useLocation } from "react-router";
+import { Link, Navigate, Outlet, useLocation } from "react-router";
 import { Box, Card, CardContent, Typography } from "@mui/material";
+import useAuth from "../../hooks/useAuth";
 
 const AuthPage = () => {
   const location = useLocation();
   const isSignIn = location.pathname.endsWith("/signin");
+
+  const { authState } = useAuth();
+
+  // ✅ Early return if user is already authenticated
+  if (authState.isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
 
   return (
     <Box

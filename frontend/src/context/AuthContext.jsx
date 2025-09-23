@@ -6,129 +6,125 @@ const initialAuthState = {
   user: null,
   isAuthenticated: false,
   isLoading: true,
-  error: null
-}
+  error: null,
+};
 
-export const AuthContext = createContext()
+export const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
-
-  const [authState, dispatch] = useReducer(authReducer, initialAuthState)
+export const AuthProvider = ({ children }) => {
+  const [authState, dispatch] = useReducer(authReducer, initialAuthState);
 
   useEffect(() => {
-    getUser()
-  }, [])
+    getUser();
+  }, []);
 
-  const signup = ({
-    name,
-    dob,
-    gender,
-    role,
-    email,
-    password
-  }) => {
-    signupAPI({
-      name,
-      dob,
-      gender,
-      role,
-      email,
-      password
-    }).then(res => {
-      localStorage.setItem('token', res.data.token)
+  const signup = async ({ name, dob, gender, role, email, password }) => {
+    try {
+      const data = await signupAPI({ name, dob, gender, role, email, password });
+
+      console.log(data)
+
+      localStorage.setItem("token", data.token);
+
       dispatch({
-        type: 'SIGNUP_SUCCESS',
+        type: "SIGNUP_SUCCESS",
         payload: {
-          name: res.data.name,
-          dob: res.data.dob,
-          gender: res.data.gender,
-          role: res.data.role,
-          email: res.data.email,
-          userId: res.data.userId,
-          createdAt: res.data.createdAt
-        }
-      })
-    }).catch(err => {
+          name: data.name,
+          dob: data.dob,
+          gender: data.gender,
+          role: data.role,
+          email: data.email,
+          userId: data.userId,
+          createdAt: data.createdAt,
+        },
+      });
+    } catch (err) {
+      console.error("❌ signup error:", err.response?.data || err.message);
       dispatch({
-        type: 'SIGNUP_ERROR',
-        payload: err.response?.data?.message
-      })
-    })
-  }
+        type: "SIGNUP_ERROR",
+        payload: err.response?.data?.message,
+      });
+    }
+  };
 
-  const signin = ({
-    email,
-    password
-  }) => {
-    signinAPI({
-      email,
-      password
-    }).then(res => {
-      localStorage.setItem('token', res.data.token)
+  const signin = async ({ email, password }) => {
+    try {
+      const data = await signinAPI({ email, password });
+      console.log("✅ signin response:", data);
+
+      localStorage.setItem("token", data.token);
+
       dispatch({
-        type: 'SIGNIN_SUCCESS',
+        type: "SIGNIN_SUCCESS",
         payload: {
-          name: res.data.name,
-          dob: res.data.dob,
-          gender: res.data.gender,
-          role: res.data.role,
-          email: res.data.email,
-          userId: res.data.userId,
-          createdAt: res.data.createdAt
-        }
-      })
-    }).catch(err => {
+          name: data.name,
+          dob: data.dob,
+          gender: data.gender,
+          role: data.role,
+          email: data.email,
+          userId: data.userId,
+          createdAt: data.createdAt,
+        },
+      });
+    } catch (err) {
+      console.error("❌ signin error:", err.response?.data || err.message);
       dispatch({
-        type: 'SIGNIN_ERROR',
-        payload: err.response?.data?.message
-      })
-    })
-  }
+        type: "SIGNIN_ERROR",
+        payload: err.response?.data?.message,
+      });
+    }
+  };
 
-  const getUser = () => {
-    getUserAPI().then(res => {
+  const getUser = async () => {
+    try {
+      const data = await getUserAPI();
+      console.log(data)
+
+      localStorage.setItem("token", data.token);
+
       dispatch({
-        type: 'GET_USER_SUCCESS',
+        type: "GET_USER_SUCCESS",
         payload: {
-          name: res.data.name,
-          dob: res.data.dob,
-          gender: res.data.gender,
-          role: res.data.role,
-          email: res.data.email,
-          userId: res.data.userId,
-          createdAt: res.data.createdAt
-        }
-      })
-    }).catch(err => {
+          name: data.name,
+          dob: data.dob,
+          gender: data.gender,
+          role: data.role,
+          email: data.email,
+          userId: data.userId,
+          createdAt: data.createdAt,
+        },
+      });
+    } catch (err) {
+      console.error("❌ getUser error:", err.response?.data || err.message);
       dispatch({
-        type: 'GET_USER_ERROR',
-        payload: err.response?.data?.message
-      })
-    })
-  }
+        type: "GET_USER_ERROR",
+        payload: err.response?.data?.message,
+      });
+    }
+  };
 
-  const logout = () => {
-    
-  }
-
+  const logout = async () => {
+    try {
+      //TODO: implement logoutAPI
+      //await logoutAPI();
+      localStorage.removeItem("token");
+      dispatch({ type: "LOGOUT_SUCCESS" });
+    } catch (err) {
+      console.error("❌ logout error:", err.response?.data || err.message);
+    }
+  };
 
   const AuthContextData = {
-    //User auth state
     authState,
-
-    //Auth Actions
     signin,
     signup,
     getUser,
     logout,
-  }
+  };
+
   return (
     <AuthContext.Provider value={AuthContextData}>
       {children}
     </AuthContext.Provider>
-  )
-}
-
-
-
-
+  );
+};
