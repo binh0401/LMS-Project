@@ -1,6 +1,6 @@
 import { createContext, useReducer, useEffect } from "react";
 import authReducer from "../reducers/authReducer";
-
+import { signinAPI, signupAPI, getUserAPI, logoutAPI } from "../services/api/auth";
 
 const initialAuthState = {
   user: null,
@@ -16,9 +16,7 @@ export const AuthProvider = ({children}) => {
   const [authState, dispatch] = useReducer(authReducer, initialAuthState)
 
   useEffect(() => {
-    if(localStorage.getItem('token')){
-      getUser()
-    }
+    getUser()
   }, [])
 
   const signup = ({
@@ -29,7 +27,7 @@ export const AuthProvider = ({children}) => {
     email,
     password
   }) => {
-    signup({
+    signupAPI({
       name,
       dob,
       gender,
@@ -62,7 +60,7 @@ export const AuthProvider = ({children}) => {
     email,
     password
   }) => {
-    signin({
+    signinAPI({
       email,
       password
     }).then(res => {
@@ -88,7 +86,7 @@ export const AuthProvider = ({children}) => {
   }
 
   const getUser = () => {
-    getUser().then(res => {
+    getUserAPI().then(res => {
       dispatch({
         type: 'GET_USER_SUCCESS',
         payload: {
