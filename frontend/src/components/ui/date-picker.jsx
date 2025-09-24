@@ -1,4 +1,3 @@
-"use client"
 
 import * as React from "react"
 import { ChevronDownIcon } from "lucide-react"
@@ -56,3 +55,5 @@ export function DatePicker({
     </Popover>
   )
 }
+
+

@@ -105,7 +105,7 @@ const SignUpForm = ({
 
                 {/* Date of Birth Field */}
                 <div className="grid gap-3">
-                  <Label htmlFor="dob">Date of Birth</Label>
+                  <Label htmlFor="dob" className="px-1">Date of Birth</Label>
                   <Controller
                     name="dob"
                     control={control}

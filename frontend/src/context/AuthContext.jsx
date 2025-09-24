@@ -1,6 +1,7 @@
 import { createContext, useReducer, useEffect } from "react";
 import authReducer from "../reducers/authReducer";
 import { signinAPI, signupAPI, getUserAPI, logoutAPI } from "../services/api/auth";
+import { useNavigate } from "react-router";
 
 const initialAuthState = {
   user: null,
@@ -13,7 +14,8 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, initialAuthState);
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     getUser();
   }, []);
@@ -107,6 +109,7 @@ export const AuthProvider = ({ children }) => {
       //await logoutAPI();
       localStorage.removeItem("token");
       dispatch({ type: "LOGOUT_SUCCESS" });
+      navigate("/");
     } catch (err) {
       console.error("❌ logout error:", err.response?.data || err.message);
     }
