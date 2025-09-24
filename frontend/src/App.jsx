@@ -3,13 +3,13 @@ import Home from './pages/home/Home'
 import SignInForm from './pages/auth/SignInForm'
 import SignUpForm from './pages/auth/SignUpForm'
 import useAuth from './hooks/useAuth'
-import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import NotFoundError from "./pages/errors/NotFoundError"
 import ProtectedRoute from "./components/shared/ProtectedRoute"
 import AuthPage from "./pages/auth/AuthPage"
 import Dashboard from './pages/dashboard/Dashboard'
 import Logout from './pages/auth/Logout'
+import {Spinner} from "./components/ui/shadcn-io/spinner/index"
 
 
 const App = () => {
@@ -21,7 +21,7 @@ const App = () => {
   if(authState.isLoading){
     return (
       <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
-        <CircularProgress />
+        <Spinner />
       </Box>
     )
   }
