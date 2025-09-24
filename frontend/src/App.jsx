@@ -1,39 +1,49 @@
-import { useState } from 'react'
-import Container from '@mui/material/Container'
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
+import {Route, Routes} from "react-router"
+import Home from './pages/home/Home'
+import SignInForm from './pages/auth/SignInForm'
+import SignUpForm from './pages/auth/SignUpForm'
+import useAuth from './hooks/useAuth'
+import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
-import './App.css'
+import NotFoundError from "./pages/errors/NotFoundError"
+import ProtectedRoute from "./components/shared/ProtectedRoute"
+import AuthPage from "./pages/auth/AuthPage"
+import Dashboard from './pages/dashboard/Dashboard'
+import Logout from './pages/auth/Logout'
 
-function App() {
-  const [count, setCount] = useState(0)
+
+const App = () => {
+  
+  const {authState} = useAuth()
+
+  //TODO: Implement this later
+
+  if(authState.isLoading){
+    return (
+      <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+        <CircularProgress />
+      </Box>
+    )
+  }
 
   return (
-    <>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            LMS Project
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/" element={<Home />} />
+      <Route path="/logout" element={<Logout />} />
+      <Route element={<AuthPage />}>
+        <Route path="/signin" element={<SignInForm />} />
+        <Route path="/signup" element={<SignUpForm />} />
+      </Route>
+      
+      {/* Protected Routes */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard" element={<Dashboard />}/>
+      </Route>
 
-      <Container sx={{ mt: 4 }}>
-        <Box sx={{ textAlign: 'center' }}>
-          <Typography variant="h4" gutterBottom>
-            Welcome to the LMS
-          </Typography>
-
-          <Button variant="contained" color="primary" onClick={() => setCount(c => c + 1)}>
-            Clicked {count} times
-          </Button>
-        </Box>
-      </Container>
-    </>
+      <Route path="/*" element={<NotFoundError />} />
+    </Routes>
   )
 }
 
-export default App
+export default App;
