@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import useAuth from "../../hooks/useAuth";
 import { LogOut, LayoutDashboard, BookOpen, NotebookPen, Settings, User } from "lucide-react";
+import { useNavigate, Link } from "react-router";
 
 function Sparkline() {
   const points = [5, 20, 12, 28, 18, 30, 15, 26, 22, 32, 20, 27, 24, 34, 25];
@@ -37,6 +38,7 @@ function Sparkline() {
 const Dashboard = () => {
   const { authState, logout } = useAuth();
   const user = authState?.user;
+  const navigate = useNavigate();
 
   return (
     <div className="bg-background text-foreground grid min-h-svh grid-cols-[72px_1fr]">
@@ -75,8 +77,10 @@ const Dashboard = () => {
             <div className="w-[320px] max-w-xs">
               <Input placeholder="Search..." className="w-full" />
             </div>
-            <Button variant="outline" onClick={logout}>
-              <LogOut className="mr-2 size-4" /> Logout
+            <Button asChild>
+              <Link to="/logout">
+                <LogOut className="mr-2 size-4" /> Logout
+              </Link>
             </Button>
           </div>
         </div>

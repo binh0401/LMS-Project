@@ -9,6 +9,7 @@ import NotFoundError from "./pages/errors/NotFoundError"
 import ProtectedRoute from "./components/shared/ProtectedRoute"
 import AuthPage from "./pages/auth/AuthPage"
 import Dashboard from './pages/dashboard/Dashboard'
+import Logout from './pages/auth/Logout'
 
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<Home />} />
+      <Route path="/logout" element={<Logout />} />
       <Route element={<AuthPage />}>
         <Route path="/signin" element={<SignInForm />} />
         <Route path="/signup" element={<SignUpForm />} />

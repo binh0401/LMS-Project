@@ -107,9 +107,8 @@ export const AuthProvider = ({ children }) => {
     try {
       //TODO: implement logoutAPI
       //await logoutAPI();
-      localStorage.removeItem("token");
       dispatch({ type: "LOGOUT_SUCCESS" });
-      navigate("/");
+      localStorage.removeItem("token");
     } catch (err) {
       console.error("❌ logout error:", err.response?.data || err.message);
     }
