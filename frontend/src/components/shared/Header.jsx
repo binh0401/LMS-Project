@@ -11,7 +11,7 @@ export default function Header() {
   return (
     <div>
       <header
-        className="sticky top-0 z-50 flex h-14 w-full items-center gap-3 bg-background/5 px-3 backdrop-blur-md supports-[backdrop-filter]:bg-background/5 md:h-16 md:px-4"
+        className="fixed top-0 z-50 flex h-14 w-full items-center gap-3 bg-background/5 px-3 backdrop-blur-md supports-[backdrop-filter]:bg-background/5 md:h-16 md:px-4"
       >
         <Link to="/" className="flex items-center gap-2">
           <BookOpenText className="h-5 w-5 md:h-6 md:w-6" />
