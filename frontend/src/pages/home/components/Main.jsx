@@ -4,7 +4,7 @@ import React from 'react'
 // It adds top padding equal to the header height and provides a responsive container.
 const Main = () => {
   return (
-    <main className={`pt-16 md:pt-20 `}>
+    <main className={`pt-16 py-16 md:pt-20 py-20`}>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam illo cupiditate consequatur, debitis maiores minus iusto expedita a doloremque praesentium velit accusantium aut molestias quae at, eius eligendi minima vel!
       Amet illum consequatur non et, nobis esse in ut aliquid impedit odit illo voluptates enim inventore veniam quos ab eum voluptatem doloribus alias blanditiis adipisci explicabo expedita quis dicta! Recusandae.
       Quod, laudantium animi incidunt consectetur vero consequatur unde fuga, dolores dicta enim amet earum quos rem laborum. Esse, tempora? Dolorem et inventore cum qui illum sapiente nisi, iste voluptate deserunt.
