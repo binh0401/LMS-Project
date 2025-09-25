@@ -5,13 +5,19 @@ import {BrowserRouter} from "react-router"
 import { AuthProvider } from './context/AuthContext'
 import { ThemeProvider } from './context/ThemeContext'
 import './index.css'
+import {GoogleOAuthProvider} from '@react-oauth/google'
+
+
+
 
 createRoot(document.getElementById('root')).render(
     <BrowserRouter>
-      <ThemeProvider>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </ThemeProvider>
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+        <ThemeProvider>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </ThemeProvider>
+      </GoogleOAuthProvider>
     </BrowserRouter>
 )

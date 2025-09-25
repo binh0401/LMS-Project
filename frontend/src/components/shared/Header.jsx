@@ -20,8 +20,6 @@ export default function Header() {
           Lồn lồn gì đấy
         </h3>
 
-
-
         </Link>
 
         <div className="ml-auto flex items-center gap-2 md:gap-3">
