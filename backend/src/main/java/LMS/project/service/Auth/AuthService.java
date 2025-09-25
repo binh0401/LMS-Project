@@ -10,4 +10,8 @@ public interface AuthService {
 
     public GetUserResponse getUser(String token);
 
+    public SignInGoogleResponse signInGoogle(SignInGoogleRequest signInGoogleRequest);
+
+
+
 }

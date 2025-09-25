@@ -30,7 +30,7 @@ public class AuthController {
 
     @GetMapping("/get-user")
     public ResponseEntity<GetUserResponse> getUser(
-            @RequestHeader(name = "Authorization", required = true) String authHeader) {
+            @RequestHeader(name = "Authorization", required = true) String authHeader) throws Exception {
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new UnauthorizedException("Missing or invalid Authorization header");
@@ -42,6 +42,12 @@ public class AuthController {
 
         GetUserResponse response = authService.getUser(token);
         return ResponseEntity.ok(response);
+    }
+
+    @RequestMapping("/google")
+    @PostMapping("/signin")
+    public ResponseEntity<SignInGoogleResponse> signinGoogle(@RequestBody SignInGoogleRequest request) throws Exception{
+
     }
 }
 

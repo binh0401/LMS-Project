@@ -6,9 +6,21 @@ import LMS.project.exception.UnauthorizedException;
 import LMS.project.modal.User;
 import LMS.project.repository.UserRepository;
 import LMS.project.security.JwtUtil;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -19,6 +31,17 @@ public class AuthServiceImpl implements AuthService {
     private JwtUtil jwtUtil;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Value("google_oauth_client_id")
+    private String clientId;
+
+    @Value("google_oauth_client_secret")
+    private String clientSecret;
+
+    GoogleIdTokenVerifier googleIdTokenVerifier = new GoogleIdTokenVerifier.Builder(
+            new NetHttpTransport(),
+            GsonFactory.getDefaultInstance()
+    ).setAudience(Collections.singletonList(clientId)).build();
 
 
     @Override
@@ -91,5 +114,46 @@ public class AuthServiceImpl implements AuthService {
 
         System.out.println("Response in getuser():" + response);
         return response;
+    }
+
+    @Override
+    public SignInGoogleResponse signInGoogle(SignInGoogleRequest signInGoogleRequest){
+        try{
+            //Send Request to Google to exchange code for token
+            GoogleTokenResponse request = new GoogleAuthorizationCodeTokenRequest(
+                    new NetHttpTransport(),
+                    GsonFactory.getDefaultInstance(),
+                    "https://oauth2.googleapis.com/token",
+                    clientId,
+                    clientSecret,
+                    signInGoogleRequest.getCode(),
+                    "http://localhost:5173"
+            ).execute();
+
+            System.out.println(request);
+            String idToken = request.getIdToken();
+
+            //Verify idToken
+            GoogleIdToken verifiedToken = googleIdTokenVerifier.verify(idToken);
+
+            if(verifiedToken == null){
+                throw new RuntimeException("Invalid Id token");
+            }
+
+            GoogleIdToken.Payload payload = verifiedToken.getPayload();
+            System.out.println("Id token payload"+ payload);
+
+
+
+
+
+        }catch (GeneralSecurityException | IOException e){
+            throw new RuntimeException("Failed to exchange code with Google", e);
+        }
+
+        return new SignInGoogleResponse();
+
+
+
     }
 }
