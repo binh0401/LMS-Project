@@ -8,7 +8,9 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -66,7 +68,22 @@ public class JwtUtil {
                 .getBody()
                 .getSubject();
     }
+
+    public String generateDummyPassword(){
+        SecureRandom secureRandom = new SecureRandom();
+
+        byte[] randomBytes = new byte[32];
+        secureRandom.nextBytes(randomBytes);
+
+        //Mix with secret key to strengthen randomness
+        String salted = Base64.getEncoder().encodeToString(randomBytes) + jwtConfig.getSecret();
+
+        return salted;
+    }
+
 }
+
+
 
 /*
 

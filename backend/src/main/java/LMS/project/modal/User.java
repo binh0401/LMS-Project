@@ -21,7 +21,7 @@ public class User {
     @Column(nullable = false)
     private LocalDate dob;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 50, nullable = true)
     private String gender;
 
     @Column(length = 50, nullable = false)
@@ -35,6 +35,9 @@ public class User {
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(nullable = false)
+    private boolean profileCompleted = true; //Set true by default, false when use 3rd party to sign in/sign up
 
     // --- Constructors ---
     public User() {}
@@ -74,4 +77,7 @@ public class User {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public boolean getProfileCompleted() { return profileCompleted; }
+    public void setProfileCompleted(boolean profileCompleted) { this.profileCompleted = profileCompleted; }
 }

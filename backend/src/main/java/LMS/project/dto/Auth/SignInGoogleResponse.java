@@ -22,6 +22,8 @@ public class SignInGoogleResponse {
 
     private String email;
 
+    private boolean profileCompleted;
+
     @JsonProperty("signInAt")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime signInAt;
@@ -43,11 +45,12 @@ public class SignInGoogleResponse {
         this.email = email;
         this.signInAt = LocalDateTime.now();
         this.token = token;
+        this.profileCompleted = false;
     }
 
     // Factory method to create from User entity
-    public static SignInResponse fromUser(LMS.project.modal.User user, String token) {
-        return new SignInResponse(
+    public static SignInGoogleResponse fromUser(LMS.project.modal.User user, String token) {
+        return new SignInGoogleResponse(
                 user.getUserId(),
                 user.getName(),
                 user.getDob(),
@@ -122,6 +125,11 @@ public class SignInGoogleResponse {
         this.token = token;
     }
 
+    public boolean getProfileCompleted() {return profileCompleted;}
+
+    public void setProfileCompleted(boolean profileCompleted) {this.profileCompleted = profileCompleted;}
+
+
     @Override
     public String toString() {
         return "SignInResponseDTO{" +
@@ -131,7 +139,8 @@ public class SignInGoogleResponse {
                 ", gender='" + gender + '\'' +
                 ", role='" + role + '\'' +
                 ", email='" + email + '\'' +
-                ", createdAt=" + signInAt +
+                ", profileCompleted='" + profileCompleted + '\'' +
+                ", signInAt=" + signInAt +
                 '}';
     }
 }

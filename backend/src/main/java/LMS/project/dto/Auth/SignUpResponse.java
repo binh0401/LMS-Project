@@ -22,6 +22,8 @@ public class SignUpResponse {
 
     private String email;
 
+    private boolean profileCompleted;
+
     @JsonProperty("createdAt")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
@@ -33,7 +35,7 @@ public class SignUpResponse {
 
     // Constructor
     public SignUpResponse(String userId, String name, LocalDate dob, String gender,
-                           String role, String email, LocalDateTime createdAt, String token) {
+                           String role, String email, LocalDateTime createdAt, boolean profileCompleted, String token) {
         this.userId = userId;
         this.name = name;
         this.dob = dob;
@@ -42,6 +44,7 @@ public class SignUpResponse {
         this.email = email;
         this.createdAt = createdAt;
         this.token = token;
+        this.profileCompleted = profileCompleted;
     }
 
     // Factory method to create from User entity
@@ -54,6 +57,7 @@ public class SignUpResponse {
                 user.getRole(),
                 user.getEmail(),
                 user.getCreatedAt(),
+                user.getProfileCompleted(),
                 token
         );
     }
@@ -123,6 +127,12 @@ public class SignUpResponse {
         this.token = token;
     }
 
+    public boolean getProfileCompleted() { return profileCompleted; }
+
+    public void setProfileCompleted(boolean profileCompleted) {
+        this.profileCompleted = profileCompleted;
+    }
+
     @Override
     public String toString() {
         return "UserResponseDTO{" +
@@ -132,6 +142,7 @@ public class SignUpResponse {
                 ", gender='" + gender + '\'' +
                 ", role='" + role + '\'' +
                 ", email='" + email + '\'' +
+                ", profileCompleted='" + profileCompleted + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
     }

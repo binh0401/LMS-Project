@@ -44,10 +44,11 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    @RequestMapping("/google")
-    @PostMapping("/signin")
+    @PostMapping("/google")
     public ResponseEntity<SignInGoogleResponse> signinGoogle(@RequestBody SignInGoogleRequest request) throws Exception{
+        SignInGoogleResponse response = authService.signInGoogle(request);
 
+        return ResponseEntity.ok(response);
     }
 }
 
