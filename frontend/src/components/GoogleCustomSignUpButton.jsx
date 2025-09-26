@@ -3,7 +3,7 @@ import { googleSigninAPI } from "../services/api/auth"
 import { useGoogleLogin } from "@react-oauth/google"
 import useAuth from "../hooks/useAuth"
 
-const GoogleCustomSignInButton = () => {
+const GoogleCustomSignUpButton = () => {
   const { dispatch } = useAuth()
   const login = useGoogleLogin({
     flow: "auth-code",
@@ -17,7 +17,7 @@ const GoogleCustomSignInButton = () => {
         console.log("Response from backend:", res)
         localStorage.setItem("token", res.token)
         dispatch({
-          type: "SIGNIN_SUCCESS",
+          type: "SIGNUP_SUCCESS",
           payload: {
             name: res.name,
             dob: res.dob,
@@ -25,7 +25,7 @@ const GoogleCustomSignInButton = () => {
             role: res.role,
             email: res.email,
             userId: res.userId,
-            signInAt: res.signInAt,
+            createdAt: res.signInAt,
           },
         });
 
@@ -49,9 +49,9 @@ const GoogleCustomSignInButton = () => {
           fill="currentColor"
         />
       </svg>
-      Sign in with Google
+      Sign up with Google
     </Button>
   )
 }
 
-export default GoogleCustomSignInButton
+export default GoogleCustomSignUpButton

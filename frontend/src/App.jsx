@@ -18,6 +18,7 @@ const App = () => {
 
   //TODO: Implement this later
 
+
   if(authState.isLoading){
     return (
       <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>

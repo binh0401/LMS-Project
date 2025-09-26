@@ -1,6 +1,6 @@
 import { createContext, useReducer, useEffect } from "react";
 import authReducer from "../reducers/authReducer";
-import { signinAPI, signupAPI, getUserAPI, logoutAPI } from "../services/api/auth";
+import { signinAPI, signupAPI, getUserAPI, logoutAPI, googleSigninAPI } from "../services/api/auth";
 import { useNavigate } from "react-router";
 
 const initialAuthState = {
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
           role: data.role,
           email: data.email,
           userId: data.userId,
-          createdAt: data.createdAt,
+          signInAt: data.signInAt,
         },
       });
     } catch (err) {
@@ -114,12 +114,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+
   const AuthContextData = {
     authState,
     signin,
     signup,
     getUser,
     logout,
+    dispatch,
   };
 
   return (

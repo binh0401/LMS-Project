@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import useAuth from "../../hooks/useAuth";
 import { LogOut, LayoutDashboard, BookOpen, NotebookPen, Settings, User } from "lucide-react";
 import { useNavigate, Link } from "react-router";
+import { useEffect } from "react";
 
 function Sparkline() {
   const points = [5, 20, 12, 28, 18, 30, 15, 26, 22, 32, 20, 27, 24, 34, 25];
@@ -39,6 +40,10 @@ const Dashboard = () => {
   const { authState, logout } = useAuth();
   const user = authState?.user;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(authState)
+  }, [authState])
 
   return (
     <div className="bg-background text-foreground grid min-h-svh grid-cols-[72px_1fr]">

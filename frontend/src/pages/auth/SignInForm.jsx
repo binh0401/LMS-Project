@@ -57,7 +57,7 @@ export default function SignInForm({
                       fill="currentColor"
                     />
                   </svg>
-                  Login with Apple
+                  Sign in with Apple
                 </Button>
 
                 {/* Google Custom Sign In Button */}
