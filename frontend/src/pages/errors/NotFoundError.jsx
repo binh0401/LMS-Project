@@ -1,104 +1,28 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Container,
-  Typography,
-  Button,
-  Paper,
-  Stack,
-  Divider,
-  Alert,
-  AlertTitle,
-  Chip,
-  Card,
-  CardContent,
-  CardActions,
-  IconButton,
-  Collapse
-} from '@mui/material';
-import {
-  ErrorOutline,
-  Home,
-  Refresh,
-  ArrowBack,
-  BugReport,
-  Wifi,
-  Security,
-  Search,
-  ExpandMore,
-  ExpandLess,
-  ContentCopy
-} from '@mui/icons-material';
-import { useNavigate } from 'react-router';
+/**
+ * v0 by Vercel.
+ * @see https://v0.app/t/yI5mVhYRWnA
+ * Documentation: https://v0.app/docs#integrating-generated-code-into-your-nextjs-app
+ */
+import { Link } from "react-router"
 
-// 404 Not Found Error Page
-const NotFoundError = () => {
-  const navigate = useNavigate()
+export default function Component() {
   return (
-    <Container>
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        minHeight="100vh"
-        textAlign="center"
-        py={4}
-      >
-        <Paper elevation={3} sx={{ p: 6, borderRadius: 3 }}>
-          <Box mb={3}>
-            <Typography
-              variant="h1"
-              color="primary"
-              sx={{
-                fontSize: { xs: '4rem', sm: '6rem', md: '8rem' },
-                fontWeight: 'bold',
-                lineHeight: 1,
-                background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              404
-            </Typography>
-          </Box>
-          
-          <Box mb={3}>
-            <Search sx={{ fontSize: 80, color: 'text.secondary', mb: 2 }} />
-            <Typography variant="h4" gutterBottom color="text.primary">
-              Page Not Found
-            </Typography>
-            <Typography variant="body1" color="text.secondary" maxWidth={500}>
-              Sorry, we couldn't find the page you're looking for. The page might have been removed,
-              renamed, or temporarily unavailable.
-            </Typography>
-          </Box>
-
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
-            <Button
-              variant="contained"
-              size="large"
-              startIcon={<Home />}
-              onClick={() => navigate('/')}
-              sx={{ px: 4 }}
-            >
-              Go Home
-            </Button>
-            <Button
-              variant="outlined"
-              size="large"
-              startIcon={<ArrowBack />}
-              onClick={() => navigate(-1)}
-              sx={{ px: 4 }}
-            >
-              Go Back
-            </Button>
-          </Stack>
-        </Paper>
-      </Box>
-    </Container>
-  );
-};
-
-
-export default NotFoundError;
+    <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-md text-center">
+        <div className="mx-auto h-12 w-12 text-primary" />
+        <h1 className="mt-4 text-6xl font-bold tracking-tight text-foreground sm:text-7xl">404</h1>
+        <p className="mt-4 text-lg text-muted-foreground">
+          Oops, it looks like the page you're looking for doesn't exist.
+        </p>
+        <div className="mt-6">
+          <Link
+            to="/"
+            className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+          >
+            Go to Homepage
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}

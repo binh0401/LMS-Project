@@ -3,7 +3,6 @@ import Home from './pages/home/Home'
 import SignInForm from './pages/auth/SignInForm'
 import SignUpForm from './pages/auth/SignUpForm'
 import useAuth from './hooks/useAuth'
-import Box from '@mui/material/Box'
 import NotFoundError from "./pages/errors/NotFoundError"
 import ProtectedRoute from "./components/shared/ProtectedRoute"
 import AuthPage from "./pages/auth/AuthPage"
@@ -21,9 +20,9 @@ const App = () => {
 
   if(authState.isLoading){
     return (
-      <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+      <div className="flex justify-center items-center h-screen">
         <Spinner />
-      </Box>
+      </div>
     )
   }
 
