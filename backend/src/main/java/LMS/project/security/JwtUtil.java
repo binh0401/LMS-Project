@@ -2,6 +2,7 @@ package LMS.project.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -13,11 +14,9 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private final JwtConfig jwtConfig;
+    @Autowired
+    private JwtConfig jwtConfig;
 
-    public JwtUtil(JwtConfig jwtConfig) {
-        this.jwtConfig = jwtConfig;
-    }
 
     /** One consistent key for sign & parse */
     private SecretKey key() {

@@ -3,6 +3,7 @@ package LMS.project.controller.Auth;
 import LMS.project.dto.Auth.*;
 import LMS.project.exception.UnauthorizedException;
 import LMS.project.service.Auth.AuthService;
+import LMS.project.service.Auth.OtpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +16,14 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<SignUpResponse> signup(@RequestBody SignUpRequest request) throws Exception {
-        SignUpResponse response = authService.signUp(request);
+    public ResponseEntity<Void> signup(@RequestBody SignUpRequest request) throws Exception {
+        authService.signUp(request);
 
+        return ResponseEntity.accepted().build();
+    }
+    @PostMapping("/verify")
+    public ResponseEntity<SignUpResponse> verify(@RequestBody SignUpRequest request) throws Exception {
+        SignUpResponse response = authService.verify(request, request.getEmail(), request.getOtpCode());
         return ResponseEntity.ok(response);
     }
 
@@ -29,6 +35,7 @@ public class AuthController {
     }
 
     @GetMapping("/get-user")
+
     public ResponseEntity<GetUserResponse> getUser(
             @RequestHeader(name = "Authorization", required = true) String authHeader) {
 

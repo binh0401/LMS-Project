@@ -28,6 +28,8 @@ public class SignUpRequest {
     @Size(min = 8, message = "Password must be at least 8 characters")
     private String password;
 
+    private String otpCode; // For OTP verification
+
     // --- Getters and Setters ---
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -46,4 +48,7 @@ public class SignUpRequest {
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+
+    public String getOtpCode() { return otpCode; }
+    public void setOtpCode(String otpCode) { this.otpCode = otpCode; }
 }
