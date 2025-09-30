@@ -1,1 +1,2 @@
-
+Spring Boot use Thread per Request by default (synchronous Servelet), means 1 process has many threads running parallel to handle multiple requests --> Cost lot of memory for threads
+Express/Fast API handle requests asynchronously by default, one process one thread, if there are I/O tasks (DB query, API call), thread will be freed to handle another request, I/O task will be delegated to another resources. 
